@@ -1,16 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { resetState, signUp } from "@/features/auth";
+import { AppDispatch, RootState } from "@/features/store";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { isLoading, isSuccess, isError, errorMessage } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const handleSignUp = async () => {
-    // Placeholder for API function
-    console.log("Sign-Up API: ", { name, email, password });
+    dispatch(signUp({ name, email, password }));
   };
+
+  if (isSuccess) {
+    router.push("/");
+  }
+
+  if (isError) {
+    MySwal.fire({
+      title: "Error",
+      text: errorMessage,
+      icon: "warning",
+      showCancelButton: true,
+      showConfirmButton: false,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Ok",
+    }).then((result: any) => {
+      dispatch(resetState());
+    });
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-green-400 to-blue-600">

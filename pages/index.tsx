@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { useSelector } from "react-redux";
 import { RootState } from "@/features/store";
 import Login from "./login";
+import Stepper from "./stepper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,6 +22,6 @@ export default function Home() {
   if (!user.id) {
     return <Login />;
   } else {
-    return <h1>Welcome to healtcare CRM</h1>;
+    return <Stepper />;
   }
 }

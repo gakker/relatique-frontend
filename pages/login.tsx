@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/features/user";
+import { loginIn, resetState } from "@/features/auth";
+import { showAlert } from "tailwind-toastify";
+import { RootState } from "@/features/store";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,11 +15,28 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch<any>();
 
+  const { isLoading, isSuccess, isError, errorMessage } = useSelector(
+    (state: RootState) => state.auth
+  );
+
   const handleLogin = async () => {
-    // Placeholder for API function
-    console.log("Login API: ", { email, password });
-    dispatch(login({ id: "11321", email }));
+    dispatch(loginIn({ email, password }));
   };
+
+  if (isError) {
+    MySwal.fire({
+      title: "Error",
+      text: errorMessage,
+      icon: "warning",
+      showCancelButton: true,
+      showConfirmButton: false,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Ok",
+    }).then((result: any) => {
+      dispatch(resetState());
+    });
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500">

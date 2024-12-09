@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
-  id: string | null;
+  id: string | null | number;
   name?: string | null;
   email?: string | null;
   role?: string | null;
@@ -25,7 +25,7 @@ const userSlice = createSlice({
     login: (
       state,
       action: PayloadAction<{
-        id: string;
+        id: string | null | number;
         name?: string;
         email?: string;
         role?: string;
