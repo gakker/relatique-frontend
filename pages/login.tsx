@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { login } from "@/features/user";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch<any>();
 
   const handleLogin = async () => {
     // Placeholder for API function
     console.log("Login API: ", { email, password });
+    dispatch(login({ id: "11321", email }));
   };
 
   return (
@@ -26,7 +30,7 @@ const Login = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-gray-600"
+              className="block text-sm font-semibold text-gray-900"
             >
               Email
             </label>
@@ -35,14 +39,14 @@ const Login = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 mt-2 border rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
+              className="w-full px-4 py-2 mt-2 border text-black rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
               placeholder="Enter your email"
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-semibold text-gray-600"
+              className="block text-sm font-semibold text-gray-900"
             >
               Password
             </label>
@@ -51,7 +55,7 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-2 border rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
+              className="w-full px-4 py-2 mt-2 border text-black rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
               placeholder="Enter your password"
             />
           </div>
